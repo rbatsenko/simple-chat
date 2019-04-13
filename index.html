@@ -21,6 +21,10 @@
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
+      /*
+
+      // ES6 version
+
       const form = document.getElementById('form');
       const m = document.getElementById('m');
       const messages = document.getElementById('messages');
@@ -37,6 +41,24 @@
         li.textContent = msg;
         messages.append(li);
       });
+      */
+
+      var form = document.getElementById('form');
+      var m = document.getElementById('m');
+      var messages = document.getElementById('messages');
+      var socket = io();
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        socket.emit('chat message', m.value);
+        m.value = '';
+        return false;
+      });
+      socket.on('chat message', function (msg) {
+        var li = document.createElement('li');
+        li.textContent = msg;
+        messages.append(li);
+      });
+
     </script>
   </body>
 </html>
