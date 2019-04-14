@@ -81,7 +81,7 @@
       });
       socket.on('chat message', function (msg) {
         var li = document.createElement('li');
-        li.textContent = window.nickname + ': ' + msg;
+        li.textContent = nickname + ': ' + msg;
         messages.append(li);
       });
     </script>
