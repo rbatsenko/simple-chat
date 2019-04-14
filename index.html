@@ -16,6 +16,9 @@
         width: 100%;
         display: flex;
       }
+      #start {
+        display: none;
+      }
       #chat {
         position: fixed;
         bottom: 0;
@@ -53,14 +56,20 @@
     <script>
       var nameForm = document.getElementById('start');
       var nameInput = document.getElementById('name');
+      var nickname = localStorage.getItem('bearlyNickname');
       var form = document.getElementById('chat');
       var m = document.getElementById('m');
       var messages = document.getElementById('messages');
       var socket = io();
 
+      if (nickname === null) {
+        nameForm.style.display = "flex";
+      }
+
       nameForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        window.nickname = nameInput.value;
+        localStorage.setItem('bearlyNickname', nameInput.value);
+        nickname = localStorage.getItem('bearlyNickname');
         nameForm.remove();
       });
       
