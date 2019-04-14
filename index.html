@@ -13,10 +13,12 @@
       form {
         background: #d6d6d6;
         padding: 3px;
-        position: fixed;
-        bottom: 0;
         width: 100%;
         display: flex;
+      }
+      #chat {
+        position: fixed;
+        bottom: 0;
       }
       form input {
         border: 0;
@@ -38,39 +40,30 @@
     </style>
   </head>
   <body>
+    <form id="start" action="">
+      <input type="text" id="name" placeholder="Nickname">
+      <button>Set nickname</button>
+    </form>
     <ul id="messages"></ul>
-    <form action="" id="form">
+    <form action="" id="chat">
       <input id="m" autocomplete="off" />
       <button>Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      /*
-
-      // ES6 version
-
-      const form = document.getElementById('form');
-      const m = document.getElementById('m');
-      const messages = document.getElementById('messages');
-      const socket = io();
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        socket.emit('chat message', m.value);
-        m.textContent = '';
-        return false;
-      });
-
-      socket.on('chat message', (msg) => {
-        const li = document.createElement('li');
-        li.textContent = msg;
-        messages.append(li);
-      });
-      */
-
-      var form = document.getElementById('form');
+      var nameForm = document.getElementById('start');
+      var nameInput = document.getElementById('name');
+      var form = document.getElementById('chat');
       var m = document.getElementById('m');
       var messages = document.getElementById('messages');
       var socket = io();
+
+      nameForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        window.nickname = nameInput.value;
+        nameForm.remove();
+      });
+      
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         socket.emit('chat message', m.value);
@@ -79,10 +72,9 @@
       });
       socket.on('chat message', function (msg) {
         var li = document.createElement('li');
-        li.textContent = msg;
+        li.textContent = window.nickname + ': ' + msg;
         messages.append(li);
       });
-
     </script>
   </body>
 </html>
